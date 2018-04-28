@@ -14,6 +14,6 @@ public class DependencyInjectionDemoApplication {
         // Ask the content for the bean
         // We have to cast it since it is not strongly typed
         MyController controller = (MyController) act.getBean("myController");
-        controller.hello();
+        System.out.println(controller.hello());
     }
 }
