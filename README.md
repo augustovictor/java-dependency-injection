@@ -127,3 +127,9 @@ The `@SpringBootApplication` includes 3 other annotations:
 To display an auto-configuration report from spring boot: Start the command line parameter `--debug`;
 
 To disable specific spring boot configuration classes pass the class name to he `exclude` parameter of `@EnableAutoConfiguration` annotations;
+
+## External properties
+
+A good example of this is a database credentials file;
+
+Create a `datasource.properties` in resources folder;
