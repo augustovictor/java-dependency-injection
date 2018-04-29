@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: en
+    en:
+
+augustovictor:
+  username: username_ENGLISH

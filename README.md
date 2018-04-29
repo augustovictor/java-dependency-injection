@@ -128,7 +128,9 @@ To display an auto-configuration report from spring boot: Start the command line
 
 To disable specific spring boot configuration classes pass the class name to he `exclude` parameter of `@EnableAutoConfiguration` annotations;
 
-## External properties
+# External properties
+
+[DOCS](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html)
 
 A good example of this is a database credentials file;
 
@@ -138,3 +140,11 @@ Create a `datasource.properties` in resources folder;
 We can add env variables through intellij under `Run > Edit configurations > Environment`
 
 To make use of an env variable we should declarate an `@Autowire` Environment variable and access values through `env.getProperty("propertyName")`
+
+## Profile Properties (Spring boot 4+)
+
+Spring active profiles
+
+Spring boot configuration files
+
+If we create a file `applicatio-<profile>.properties` it will overwrite the `application.properties` values;

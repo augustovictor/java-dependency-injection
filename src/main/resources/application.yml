@@ -1,0 +1,14 @@
+augustovictor:
+
+  jms:
+    username: jms_username2
+    password: jms_password
+    url: jms_url
+
+---
+spring:
+  profiles:
+    de:
+augustovictor:
+  jms:
+    username: jms_username_GERMAN
