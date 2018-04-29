@@ -40,6 +40,10 @@ The annotations to access Spring Bean Lifecycle are:
     - Introduced in spring framework 2.0;
     - Common in legacy spring applications;
     - Still supported in spring framework 5.x
+    - The config file should be placed within `resources` folder;
+    - The config file should be imported through the `@ImportResource("classpath:config-file.xml")` above the `@SpringBootApplication` annotation;
+        - xml attribute example: `<bean name="chuckNorrisQuotes" class="guru.springframework.norris.chuck.ChuckNorrisQuotes" />`
+        - The class should be the one to be imported;
 - Annotation based
     - Introduced in version 3;
     - Picked up via 'Component Scans';
