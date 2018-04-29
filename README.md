@@ -50,7 +50,31 @@ The annotations to access Spring Bean Lifecycle are:
     - Uses java classes to define Spring Beans;
         - Annotation used: `@Configuration`;
     - Beans are declared with `@Bean` annotation;
+        - Very useful when we want to load an external class as a `Bean` so it can be autowired;
 - Groovy Bean Definition DSL
     - Introduced in spring 4;
     - Allows us to declare beans in groovy;
     - Borrowed from Grails;
+    
+## Spring stereotypes
+Definition: It is a fixed general image or set of characteristics which represent a particular type of person or thing;
+
+Spring stereotypes are used to define Spring Beans in the Spring context;
+- `@Component` (root node in the hierarchy): The class will be created as a Bean;
+- `@Controller`: The class has the role of a Spring MVC Controller;
+- `@RestController`: Extends `@Controller` and adds `@ResponseBody`;
+- `@Repository`(data layer): The class has a mechanism for encapsulating storage, retrieval, and search behavior which emulates a collection of objects;
+- `@Service`: The class has an operation offered as an interface that stands alone in the model, with no encapsulated state;
+    - We place a service inside the controller. The service communicates to the database through a repository;
+
+## Spring scan
+Spring scans the application looking for classes annotated with spring annotations;
+
+Spring starts scanning components from the package where the class with `@SpringBootApplication` is located;
+
+To configure spring to scan other packages as well we can add the following annotation below:
+```
+@SpringBootApplication`: `@ComponentScan(basePackages= = { <root.package.name>, "augustovictor.services" })
+```
+
+Ps: When setting this option we overwrite the spring default package scan so we have to inform all of them.
