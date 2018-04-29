@@ -1,6 +1,7 @@
 package augustovictor.com.github.dependencyinjectiondemo.config;
 
 import augustovictor.com.github.dependencyinjectiondemo.datasources.FakeDataSource;
+import augustovictor.com.github.dependencyinjectiondemo.datasources.FakeJmsBroker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@PropertySource("classpath:datasource.properties")
+@PropertySource({"classpath:datasource.properties", "classpath:jms.properties"})
 public class PropertyConfig {
 
     @Autowired
@@ -26,6 +27,26 @@ public class PropertyConfig {
 
     @Value("${augustovictor.HOST}")
     String host;
+
+    @Value("${augustovictor.jms.username}")
+    String jmsUsername;
+
+    @Value("${augustovictor.jms.password}")
+    String jmsPassword;
+
+    @Value("${augustovictor.jms.url}")
+    String jmsUrl;
+
+    @Bean
+    public FakeJmsBroker fakeJmsBroker() {
+        FakeJmsBroker jmsBroker = new FakeJmsBroker();
+
+        jmsBroker.setUsername(jmsUsername);
+        jmsBroker.setPassword(jmsPassword);
+        jmsBroker.setUrl(jmsUrl);
+
+        return jmsBroker;
+    }
 
     @Bean
     public FakeDataSource fakeDataSource() {
