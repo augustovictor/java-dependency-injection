@@ -133,3 +133,8 @@ To disable specific spring boot configuration classes pass the class name to he 
 A good example of this is a database credentials file;
 
 Create a `datasource.properties` in resources folder;
+
+## Environment variables (OS properties)
+We can add env variables through intellij under `Run > Edit configurations > Environment`
+
+To make use of an env variable we should declarate an `@Autowire` Environment variable and access values through `env.getProperty("propertyName")`
