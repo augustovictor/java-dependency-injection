@@ -148,3 +148,134 @@ Spring active profiles
 Spring boot configuration files
 
 If we create a file `applicatio-<profile>.properties` it will overwrite the `application.properties` values;
+
+
+## JPA
+
+### Annotations
+- `@Lob`: Large object (Blob or clob);
+- `@Enumerated`: Consider whether you want to store the value as ordinal or string.
+    - Ordinal values change when we add new elements between values in our enum;
+    - Ordinal is default;
+
+### Relationships
+The owner side of a Many to Many relationship is defined by the `mappedBy` attribute (the child entity property that would reference the parent).
+
+### Fetch types
+
+- Lazy: Data is not required until referenced;
+    - OneToMany
+    - ManyToMany
+- Eager: Data is required upfront;
+    - OneToOne
+    - ManyToOne
+
+### Cascade types
+
+Control how state changes are cascated from parent to child objects;
+
+- Persist: Save operations will cascade to related entities;
+- Merge: Related entities are merged when owning entity is merged;
+- Refresh: Related entities are refreshed when the owning entity is refreshed;
+- Remove: All related entities are removed when owning entity is deleted;
+- Detach: Detaches all related entities if a manual detach occurs;
+    - No longer associated with the hibernate session. So we cannot access lazy associations anymore;
+- All: Applies all the above cascade options;
+
+Ps: By default no operations are cascated;
+
+### Embeddable Types
+
+JPA/Hibernate support.
+
+Used to define a common set of properties. E.g.: an order might have a billing address, and a shipping address;
+
+### Inheritance
+
+Relational DB does not have the concept of inheritance;
+
+- MappedSuperclass: Entities inherit from a superclass. A table is NOT created for the superclass;
+- Single Table (Hibernate default): One table is used for all subclasses;
+- Joined Table: Base class and subclasses have their own tables. Fetchin subclass entities require a join to the parent table;
+- Table per class: Each subclass has its own table;
+
+### Create and update timestamps
+
+JPA supports `@PrePersist` and `@PreUpdate` via JPA lifecycle callbacks.
+
+Hibernate provides `@CreationTimestamp` and `@UpdateTimestamp` (Preferred way).
+
+### Hibernate DDL auto
+
+It controls what DDL operations Hibernate will perform on startup;
+
+DDL - Data Definition Language
+
+DML - Data Manupulation Language
+
+Hibernate property is set by the spring property `spring.jpa.hibernate.ddl-auto`
+
+The options are:
+- none: No DDL activity from hibernate; Does not verify the db structure neither;
+- validate (use in production): Fail to startup if anything is missing (table or column); 
+- update: Automatically update db schema based on JPA model;
+- create: Automatically create the database;
+- create-drop: Drop after application finishes;
+
+Spring boot will use create-drop for embedded databases (hsql, h2, derby) or none for other dbs;
+
+Data (seeds) can be loaded from an `import.sql` file (This is a hibernate feature);
+- The file must be located on the root of the classpath;
+- This will be executed only if Hibernate's ddl-auto property is set to `create` or `create-drop`;
+
+### Spring JDBC
+
+Spring's datasource initializer via spring boot will by default load `schema.sql` and `data.sql` from the root o the classpath.
+
+Spring boot will also load from `schema-${platform}.sql` and `data-${platform}.sql` (set `spring.datasource.platform` in properties first).
+
+These configs may conflict with Hibernate's DDL auto property (choose spring approach only); If you have to use both, set hibernate's ddl-auto option to either none or validate;
+
+To reference the tables in scripts we use the lower_snake_case
+
+### Spring Data JPA
+
+We can make use of query methods
+
+### Lombok
+
+The objective is to get rid of java boilerplate;
+
+Lombok resolves this by reading annotations and converting them into actual methods when the code is compiled;
+
+Annotations
+- @Getter: Generate getters for all properties;
+- @Setter: Generate setter for all non-final properties;
+- @ToString: Generates a string of classname, and each field separated by commas;
+    - We can set it to include field names as well;
+    - Also call the super toString
+- @EqualsAndHashCode: Generates implementations of `equals(Object other)` and `hashCode()`
+    - By default will use all non-static, non-transient properties;
+    - Can optionally exclude specific properties;
+- @NoArgsConstructor: Will cause compiler error if there are final fields;
+    - Can optionally force, which will initialize final fields with `0` / false / null;
+- @RequiredArgsConstructor: Generates a constructor for all fields that are final or marked `@NonNull``
+    - Will throw a NullPointerException if any `@NonNull` fields are null;
+- @Data: Generates typical boilerplate code for POJOs;
+    - Combines @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor
+    - No constructor is generated if you have already declared one;
+- @Value: The immutable variant of @Data
+    - All fields are made private and final by default;
+- @NonNull: Set on parameter of method or constructor and a NullPointerException will be thrown if parameter is null
+- @Builder: Implements the builder pattern for object creation
+- @SneakyThrows: Throw checked exceptions without declaring in calling method's throw clause;
+- @Syncronized: A safer implementation of java's synchronized
+- @Log: Creates a java util logger
+- Slf4j: Creates a SLF4J logger
+
+Setup
+- Add maven dependency
+```
+groupId: org.projectlombok 
+artifact: lombok
+```
