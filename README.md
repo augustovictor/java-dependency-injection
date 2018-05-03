@@ -279,3 +279,85 @@ Setup
 groupId: org.projectlombok 
 artifact: lombok
 ```
+
+### Testing
+
+Unit tests
+
+- Code under test: Code we're testing
+- Test fixture: Fixed state of a set of objects used as a baseline for running tests.
+    - This includes: Input data, mock objects, loading db with known data, etc;
+
+- Ideal test coverage is within 70%-80%;
+- Should be unity and execute very fast;
+- Should not have external dependencies (No db, no spring context, etc);
+
+Integration test
+
+- Designed to test behaviors between objects and parts of the overall system;
+- Much marger scope;
+- Can include spring context, db, message brokers, etc;
+- will run much slower than unit tests;
+
+Functional tests (End-to-end)
+
+- Test a running application;
+- Application is live, likely deployed in a known env;
+- Functional touch points are tested (using a web driver, calling web services, sending/receiving messages, etc);
+
+TDD: Write tests first, which wil fail, then code to fix the test;
+
+BDD: Builds on TDD and specifies that tests of any unit of software should be specified in terms of desired behavior or the unit;
+
+Often implemented with DSLs to create natural language tests (JBehave, Cucumber, Spock(preferred))
+
+Example of tests: "Given ...", "When...", "Then..."
+
+Mock: Fake implementation of a classe used for testing. Like a test double.
+
+Spy: Partial mock, allowing us to override select methods of a real class;
+
+Testing goals:
+- Have the majority of the tests as unit tests;
+- Try to test specific business logic in unit tests;
+- Use integration tests to test interactions;
+- Think of a pyramid. Base is unit tests, middle is integration tests, and top is functional tests;
+
+Test scope dependencies
+- Using spring-boot-starter-test (default from spring initializr will load the following dependencies):
+    - JUnit
+    - Spring Test and Spring Boot Test: Utilities and integration tests support for spring boot apps;
+    - AssertJ
+    - Hamcrest: Lib for matcher objects;
+    - Mockito
+    - JSONassert: Json assertion lib;
+    - JSONPath: XPath for JSON;
+
+JUnit annotations
+- @Test
+- @Before
+- @After
+- @BeforeClass
+- @AfterClass
+- @Ignore
+- @Test(expected = Exception.class)
+- @Test(timeout = 10) (10 = seconds)
+
+Spring Boot annotations
+- @RunWith(SpringRuner.class)
+- @SpringBootTest
+- @TestConfiguration: Specifies a spring config for the test
+- @MockBean (Uses mockito)
+- @SpyBean (Uses mockito)
+- @JsonTest
+- @WebMvcTest: Used to test web context without a full http server (Tomcat)
+- @DataJpaTest: Used to test data layer with embedded database;
+- @JdbcTest: Like @DataJpaTest but does not configure entity manager. We would be testing agains a mysql for exemple;
+- @DataMongoTest: Configures an embedded MongoDB for testing;
+- @RestClientTest: Creates a mock server for testing rest clients;
+- @AutoConfigureRestDocks: Allows us to use Spring Rest Docs in tests, creating API docs;
+- @BootStrapWith: Configures how TestContext is bootstrapped;
+- @ContextConfiguration: Directs Spring on how to configure the context for the test;
+- @ContextHierarchy: Creates hierarchy with @ContextConfiguration
+- @ActiveProfiles: Set which spring profiles are active for the profile;
+- 
